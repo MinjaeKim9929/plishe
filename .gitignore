@@ -130,3 +130,7 @@ Plishe_Project_Documentation_v1.0.pages
 
 # Misc
 *.orig
+
+.vscode
+
+CLAUDE.md

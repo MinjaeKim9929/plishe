@@ -1,1 +1,18 @@
 @import 'tailwindcss';
+
+@theme {
+	/* Fonts */
+	--font-syne: var(--font-syne);
+	--font-manrope: var(--font-manrope);
+
+	/* Colors */
+	--color-primary: oklch(0.6165 0.2257 290.95);
+	--color-secondary: oklch(0.7265 0.160368 295.7244);
+	--color-accent: oklch(0.8191 0.1212 225.3);
+
+	--color-primary-text: oklch(1 0 0);
+	--color-secondary-text: oklch(0.7763 0.0282 285.72);
+	--color-disabled-text: oklch(0.5446 0.0278 285.44);
+
+	--color-background: oklch(0.1473 0.0107 285.01);
+}
