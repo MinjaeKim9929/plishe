@@ -6,3 +6,100 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+/* ENUMS */
+enum PlaylistVisibility {
+  PUBLIC
+  PRIVATE
+  FOLLOWERS
+}
+
+/* MODELS */
+model User {
+  id            String    @id @default(uuid()) @db.Uuid
+  email         String    @unique @db.VarChar(255)
+  username      String    @unique @db.VarChar(50)
+  displayName   String?   @map("display_name") @db.VarChar(50)
+  bio           String?   @db.Text
+  profileImage  String?   @map("profile_image") @db.Text
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  playlists     Playlist[]
+  addedTracks   PlaylistTrack[]
+  
+  @@index([email])
+  @@index([username])
+  @@map("users")
+}
+
+model Playlist {
+  id                String              @id @default(uuid()) @db.Uuid
+  userId            String              @map("user_id") @db.Uuid
+  name              String              @db.VarChar(100)
+  description       String?             @db.Text
+  coverImage        String?             @map("cover_image") @db.Text
+  visibility        PlaylistVisibility  @default(PUBLIC)
+  isCollaborative   Boolean             @default(false) @map("is_collaborative")
+  trackCount        Int                 @default(0) @map("track_count")
+  createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tracks            PlaylistTrack[]
+
+  @@index([userId])
+  @@index([visibility])
+  @@index([createdAt(sort: Desc)])
+  @@map("playlists")
+}
+
+ model Track {
+  id                String    @id @default(uuid()) @db.Uuid
+  isrc              String?   @unique @db.VarChar(12)
+  title             String    @db.VarChar(255)
+  artist            String    @db.VarChar(255)
+  album             String?   @db.VarChar(255)
+  duration          Int       // milliseconds
+  coverUrl          String?   @map("cover_url") @db.Text
+  spotifyId         String?   @map("spotify_id") @db.VarChar(50)
+  appleMusicId      String?   @map("apple_music_id") @db.VarChar(50)
+  youtubeMusicId    String?   @map("youtube_music_id") @db.VarChar(50)
+  amazonMusicId     String?   @map("amazon_music_id") @db.VarChar(50)
+  tidalId           String?   @map("tidal_id") @db.VarChar(50)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  playlistTracks    PlaylistTrack[]
+
+  @@index([isrc])
+  @@index([title, artist])
+  @@index([spotifyId])
+  @@index([appleMusicId])
+  @@index([youtubeMusicId])
+  @@index([amazonMusicId])
+  @@index([tidalId])
+  @@map("tracks")
+ }
+
+model PlaylistTrack {
+  id            String    @id @default(uuid()) @db.Uuid
+  playlistId    String    @map("playlist_id") @db.Uuid
+  trackId       String    @map("track_id") @db.Uuid
+  position      Int       
+  addedById     String?   @map("added_by") @db.Uuid
+  addedAt       DateTime  @default(now()) @map("added_at") @db.Timestamptz
+
+  // Relations
+  playlist      Playlist  @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  track         Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  addedBy       User?     @relation(fields: [addedById], references: [id], onDelete: SetNull)
+
+  @@unique([playlistId, position])
+  @@unique([playlistId, trackId])
+  @@index([playlistId, position])
+  @@map("playlist_tracks")
+}
+
