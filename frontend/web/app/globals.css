@@ -6,13 +6,13 @@
 	--font-manrope: var(--font-manrope);
 
 	/* Colors */
-	--color-primary: oklch(0.6165 0.2257 290.95);
-	--color-secondary: oklch(0.7265 0.160368 295.7244);
-	--color-accent: oklch(0.8191 0.1212 225.3);
+	--color-primary: #8b5fff;
+	--color-secondary: #b08fff;
+	--color-accent: #5ed4ff;
 
-	--color-primary-text: oklch(1 0 0);
-	--color-secondary-text: oklch(0.7763 0.0282 285.72);
-	--color-disabled-text: oklch(0.5446 0.0278 285.44);
+	--color-primary-text: #ffffff;
+	--color-secondary-text: #b4b4c8;
+	--color-disabled-text: #6e6e80;
 
-	--color-bg: oklch(0.1473 0.0107 285.01);
+	--color-bg: #0a0a0f;
 }
