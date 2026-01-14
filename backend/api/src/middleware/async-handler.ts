@@ -19,10 +19,19 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
  *      res.json(users); // Errors auto-forwarded to error handler
  *    }));
  */
-export const asyncHandler = (
-	fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
+export const asyncHandler = <
+	P = object,
+	ResBody = object,
+	ReqBody = object,
+	ReqQuery = object //
+>(
+	fn: (
+		req: Request<P, ResBody, ReqBody, ReqQuery>,
+		res: Response,
+		next: NextFunction //
+	) => Promise<void>
 ): RequestHandler => {
 	return (req, res, next) => {
-		Promise.resolve(fn(req, res, next)).catch(next);
+		Promise.resolve(fn(req as Request<P, ResBody, ReqBody, ReqQuery>, res, next)).catch(next);
 	};
 };
