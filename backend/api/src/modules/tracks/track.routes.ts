@@ -8,10 +8,6 @@ import {
 	trackIdSchema,
 	listTracksSchema,
 	searchTracksSchema,
-	playlistIdSchema,
-	addTrackToPlaylistSchema,
-	removeTrackFromPlaylistSchema,
-	reorderTracksSchema,
 } from './track.schema';
 
 const router = Router();
