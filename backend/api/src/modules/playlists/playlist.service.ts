@@ -3,7 +3,7 @@ import { NotFoundError } from '../../lib/errors';
 import type { CreatePlaylistInput, UpdatePlaylistInput } from './playlist.schema';
 import { PlaylistVisibility } from '../../generated/prisma/enums';
 
-// Temporary mock user ID (until auth is implemented)
+// Temporary mock user ID
 const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 /**
