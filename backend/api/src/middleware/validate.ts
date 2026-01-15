@@ -23,10 +23,10 @@ export const validate = (schemas: ValidationSchemas): RequestHandler => {
 				req.body = await schemas.body.parseAsync(req.body);
 			}
 			if (schemas.query) {
-				req.body = await schemas.query.parseAsync(req.body);
+				req.body = await schemas.query.parseAsync(req.query);
 			}
 			if (schemas.params) {
-				req.body = await schemas.params.parseAsync(req.body);
+				req.body = await schemas.params.parseAsync(req.params);
 			}
 			next();
 		} catch (err) {
