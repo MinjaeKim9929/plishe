@@ -26,7 +26,7 @@ export const playlistController = {
 	 * Query params: page, limit, visibility (optional)
 	 */
 	async list(req: ListRequest, res: Response) {
-		const { page, limit, visibility } = req.query as unknown as ListPlaylistQuery;
+		const { page = 1, limit = 20, visibility } = req.query as unknown as ListPlaylistQuery;
 
 		const { playlists, total } = await playlistService.list(page, limit, visibility);
 		const meta = createPaginationMeta(total, page, limit);

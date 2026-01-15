@@ -11,7 +11,11 @@
   "scripts": {
     "dev:web": "npm run dev --workspace=frontend/web",
     "dev:api": "npm run dev --workspace=backend/api",
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
     "build:web": "npm run build --workspace=frontend/web",
     "build:api": "npm run build --workspace=backend/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

@@ -21,13 +21,10 @@ export type PaginationQuery = z.infer<typeof paginationSchema>;
  *    const { skip, take } = getPaginationParams({ page: 2, limit: 20 });
  *    // skip = 20, take = 20
  */
-export function getPaginationParams(query: PaginationQuery) {
-	const { page, limit } = query;
+export function getPaginationParams(page = 1, limit = 20) {
 	return {
 		skip: (page - 1) * limit,
 		take: limit,
-		page,
-		limit,
 	};
 }
 
