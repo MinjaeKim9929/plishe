@@ -31,16 +31,16 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>
 
 const variantStyles: Record<InputVariant, string> = {
 	default: `
-      bg-surface border border-border-strong
+      bg-transparent border-2 border-border-strong
       hover:border-text-muted
       focus:border-primary-500 focus:ring-1 focus:ring-primary-500
       disabled:hover:border-border-strong
     `,
 	filled: `
-      bg-surface-elevated border border-border
-      hover:bg-surface-hover hover:border-border-strong
-      focus:border-primary-500 focus:ring-1 focus:ring-primary-500
-      disabled:hover:bg-surface-elevated disabled:hover:border-border
+      bg-surface-elevated border-2 border-transparent
+      hover:bg-surface-hover
+      focus:bg-surface-hover focus:border-primary-500 focus:ring-1 focus:ring-primary-500
+      disabled:hover:bg-surface-elevated
     `,
 };
 
@@ -63,6 +63,7 @@ const ClearButton = ({ onClick, className }: { onClick: () => void; className?: 
 		onClick={onClick}
 		className={`
         text-text-muted hover:text-text-primary
+        hover:cursor-pointer
         transition-colors duration-150
         focus:outline-none focus:text-text-primary
         ${className}

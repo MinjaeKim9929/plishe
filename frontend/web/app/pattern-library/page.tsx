@@ -1,220 +1,189 @@
+'use client';
+
+import { useState } from 'react';
+
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
 
-export default function PatternLibraryPage() {
+type ThemeMode = 'light' | 'dark' | 'system';
+
+function ThemeToggle({ mode, onChange }: { mode: ThemeMode; onChange: (mode: ThemeMode) => void }) {
 	return (
-		<div className="min-h-screen bg-bg p-8 md:p-12">
-			<header className="mb-12">
-				<h1 className="font-syne text-4xl font-extrabold text-text-primary">Pattern Library</h1>
-				<p className="mt-2 text-text-secondary font-manrope">Plishe UI component reference</p>
+		<div className="inline-flex rounded-lg bg-surface p-1 border border-border">
+			{(['light', 'dark', 'system'] as const).map((m) => (
+				<button
+					key={m}
+					onClick={() => onChange(m)}
+					className={`
+						px-3 py-1.5 text-sm font-medium rounded-md transition-colors hover:cursor-pointer
+						${mode === m ? 'bg-primary-500 text-white' : 'text-text-secondary hover:text-text-primary'}`}
+				>
+					{m.charAt(0).toUpperCase() + m.slice(1)}
+				</button>
+			))}
+		</div>
+	);
+}
+
+function ComponentCard({ title, children }: { title: string; children: React.ReactNode }) {
+	return (
+		<div className="rounded-xl border border-border bg-surface p-6">
+			<h2 className="font-syne text-xl font-bold text-text-primary mb-6">{title}</h2>
+			{children}
+		</div>
+	);
+}
+
+function Subsection({ title, children }: { title: string; children: React.ReactNode }) {
+	return (
+		<div className="mb-6 last:mb-0">
+			<h3 className="text-xs font-manrope font-semibold text-text-muted uppercase tracking-wider mb-3">{title}</h3>
+			{children}
+		</div>
+	);
+}
+
+export default function PatternLibraryPage() {
+	const [theme, setTheme] = useState<ThemeMode>('system');
+
+	const themeClass = theme === 'light' ? 'light-theme' : theme === 'dark' ? 'dark-theme' : '';
+
+	return (
+		<div className={`min-h-screen bg-bg ${themeClass}`}>
+			{/* Header */}
+			<header className="sticky top-0 z-10 bg-bg/80 backdrop-blur-sm border-b border-border">
+				<div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+					<div>
+						<h1 className="font-syne text-2xl font-extrabold text-text-primary">Pattern Library</h1>
+						<p className="text-sm text-text-muted">Plishe UI Components</p>
+					</div>
+					<ThemeToggle mode={theme} onChange={setTheme} />
+				</div>
 			</header>
 
-			{/* Buttons Section */}
-			<section className="mb-20">
-				<h2 className="font-syne text-2xl font-extrabold text-text-primary mb-6">Buttons</h2>
+			{/* Content */}
+			<main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+				{/* Buttons */}
+				<ComponentCard title="Button">
+					<Subsection title="Variants × Sizes">
+						<div className="overflow-x-auto">
+							<table className="w-full">
+								<thead>
+									<tr className="text-left text-xs text-text-muted uppercase">
+										<th className="pb-3 pr-4 font-medium"></th>
+										<th className="pb-3 px-2 font-medium">SM</th>
+										<th className="pb-3 px-2 font-medium">MD</th>
+										<th className="pb-3 px-2 font-medium">LG</th>
+										<th className="pb-3 px-2 font-medium">XL</th>
+									</tr>
+								</thead>
+								<tbody className="align-middle">
+									{(['primary', 'secondary', 'ghost', 'danger', 'link'] as const).map((variant) => (
+										<tr key={variant} className="border-t border-border-subtle">
+											<td className="py-4 pr-4 text-sm text-text-secondary capitalize">{variant}</td>
+											{(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+												<td key={size} className="py-4 px-2">
+													<Button variant={variant} size={size}>
+														Button
+													</Button>
+												</td>
+											))}
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					</Subsection>
 
-				{/* Variants */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Variants
-					</h3>
-					<div className="flex flex-wrap gap-4">
-						<Button variant="primary">Primary</Button>
-						<Button variant="secondary">Secondary</Button>
-						<Button variant="ghost">Ghost</Button>
-						<Button variant="danger">Danger</Button>
-						<Button variant="link">Link</Button>
+					<Subsection title="States">
+						<div className="flex flex-wrap gap-4">
+							<div className="space-y-2">
+								<p className="text-xs text-text-muted">Normal</p>
+								<Button>Default</Button>
+							</div>
+							<div className="space-y-2">
+								<p className="text-xs text-text-muted">Disabled</p>
+								<Button disabled>Disabled</Button>
+							</div>
+							<div className="space-y-2">
+								<p className="text-xs text-text-muted">Loading</p>
+								<Button loading>Loading</Button>
+							</div>
+						</div>
+					</Subsection>
+
+					<Subsection title="Full Width">
+						<div className="max-w-md">
+							<Button fullWidth>Full Width Button</Button>
+						</div>
+					</Subsection>
+				</ComponentCard>
+
+				{/* Inputs */}
+				<ComponentCard title="Input">
+					<div className="grid md:grid-cols-2 gap-8">
+						{/* Left column */}
+						<div className="space-y-6">
+							<Subsection title="Variants">
+								<div className="space-y-3">
+									<Input variant="default" placeholder="Default variant" />
+									<Input variant="filled" placeholder="Filled variant" />
+								</div>
+							</Subsection>
+
+							<Subsection title="Sizes">
+								<div className="space-y-3">
+									<Input size="sm" placeholder="Small" />
+									<Input size="md" placeholder="Medium" />
+									<Input size="lg" placeholder="Large" />
+								</div>
+							</Subsection>
+
+							<Subsection title="With Label & Helper">
+								<Input
+									label="Email"
+									type="email"
+									placeholder="you@example.com"
+									helperText="We'll never share your email"
+								/>
+							</Subsection>
+						</div>
+
+						{/* Right column */}
+						<div className="space-y-6">
+							<Subsection title="States">
+								<div className="space-y-3">
+									<Input label="Required" placeholder="Required field" required />
+									<Input
+										label="Error"
+										placeholder="With error"
+										error="This field has an error"
+										defaultValue="Invalid value"
+									/>
+									<Input placeholder="Disabled" disabled defaultValue="Cannot edit" />
+									<Input placeholder="Loading..." loading />
+								</div>
+							</Subsection>
+
+							<Subsection title="Features">
+								<div className="space-y-3">
+									<Input
+										placeholder="Search..."
+										leftIcon={
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+												<circle cx="11" cy="11" r="8" />
+												<path d="m21 21-4.35-4.35" />
+											</svg>
+										}
+									/>
+									<Input placeholder="Clearable" clearable defaultValue="Clear me" />
+									<Input label="Character limit" placeholder="Type here..." maxLength={50} showCharacterCount />
+								</div>
+							</Subsection>
+						</div>
 					</div>
-				</div>
-
-				{/* Sizes */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">Sizes</h3>
-					<div className="flex flex-wrap items-center gap-4">
-						<Button size="sm">Small</Button>
-						<Button size="md">Medium</Button>
-						<Button size="lg">Large</Button>
-						<Button size="xl">X-Large</Button>
-					</div>
-				</div>
-
-				{/* States */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">States</h3>
-					<div className="flex flex-wrap items-center gap-4">
-						<Button disabled>Disabled</Button>
-						<Button loading>Loading</Button>
-						<Button variant="secondary" disabled>
-							Disabled Secondary
-						</Button>
-						<Button variant="secondary" loading>
-							Loading Secondary
-						</Button>
-					</div>
-				</div>
-
-				{/* Full Width */}
-				<div>
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Full Width
-					</h3>
-					<div className="max-w-md">
-						<Button fullWidth>Full Width Button</Button>
-					</div>
-				</div>
-			</section>
-
-			{/* Inputs Section */}
-			<section className="mb-20">
-				<h2 className="font-syne text-2xl font-extrabold text-text-primary mb-6">Inputs</h2>
-
-				{/* Variants */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Variants
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input variant="default" placeholder="Default input" />
-						<Input variant="filled" placeholder="Filled input" />
-					</div>
-				</div>
-
-				{/* Sizes */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">Sizes</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input size="sm" placeholder="Small" />
-						<Input size="md" placeholder="Medium" />
-						<Input size="lg" placeholder="Large" />
-					</div>
-				</div>
-
-				{/* With Label & Helper */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						With Label & Helper
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input label="Email" type="email" placeholder="you@example.com" helperText="We'll never share your email" />
-					</div>
-				</div>
-
-				{/* Required */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Required
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input label="Required Field" placeholder="This field is required" required />
-					</div>
-				</div>
-
-				{/* Error State */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Error State
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input
-							label="Username"
-							placeholder="Enter username"
-							error="Username is already taken"
-							defaultValue="plishe"
-						/>
-					</div>
-				</div>
-
-				{/* With Icons */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						With Icons
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input
-							placeholder="Search tracks..."
-							leftIcon={
-								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-									<circle cx="11" cy="11" r="8" />
-									<path d="m21 21-4.35-4.35" />
-								</svg>
-							}
-						/>
-						<Input
-							type="email"
-							placeholder="Email"
-							rightIcon={
-								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-									<rect width="20" height="16" x="2" y="4" rx="2" />
-									<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-								</svg>
-							}
-						/>
-					</div>
-				</div>
-
-				{/* Loading */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Loading
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input placeholder="Searching..." loading />
-					</div>
-				</div>
-
-				{/* Clearable */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Clearable
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input placeholder="Type to see clear button" clearable defaultValue="Clear me" />
-					</div>
-				</div>
-
-				{/* Character Count */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Character Count
-					</h3>
-					<div className="flex flex-col gap-4 max-w-sm">
-						<Input
-							label="Bio"
-							placeholder="Tell us about yourself"
-							maxLength={100}
-							showCharacterCount
-							defaultValue="Hello world"
-						/>
-					</div>
-				</div>
-
-				{/* Disabled */}
-				<div className="mb-8">
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Disabled
-					</h3>
-					<div className="max-w-sm">
-						<Input disabled placeholder="Disabled input" defaultValue="Cannot edit" />
-					</div>
-				</div>
-
-				{/* Combined */}
-				<div>
-					<h3 className="text-sm font-manrope font-medium text-text-secondary uppercase tracking-wider mb-4">
-						Combined
-					</h3>
-					<div className="max-w-sm">
-						<Input
-							label="Username"
-							placeholder="Choose a username"
-							required
-							clearable
-							maxLength={20}
-							showCharacterCount
-						/>
-					</div>
-				</div>
-			</section>
+				</ComponentCard>
+			</main>
 		</div>
 	);
 }
