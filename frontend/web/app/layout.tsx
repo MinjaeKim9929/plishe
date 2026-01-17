@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${syne.variable} ${manrope.variable} antialiased bg-[var(--color-bg)]`}>{children}</body>
+			<body className={`${syne.variable} ${manrope.variable} antialiased bg-bg`}>{children}</body>
 		</html>
 	);
 }
