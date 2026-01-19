@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
+import { Vinyl } from '@/components/features/playlist';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -182,6 +183,55 @@ export default function PatternLibraryPage() {
 							</Subsection>
 						</div>
 					</div>
+				</ComponentCard>
+
+				{/* Vinyl */}
+				<ComponentCard title="Vinyl">
+					<Subsection title="Sizes">
+						<div className="flex items-end gap-6">
+							<Vinyl size="xs" fallbackText="XS" />
+							<Vinyl size="sm" fallbackText="SM" />
+							<Vinyl size="md" fallbackText="MD" />
+							<Vinyl size="lg" fallbackText="LG" />
+							<Vinyl size="xl" fallbackText="XL" />
+						</div>
+					</Subsection>
+
+					<Subsection title="Colors">
+						<div className="flex items-center gap-6 flex-wrap">
+							<Vinyl size="sm" color="black" fallbackText="B" />
+							<Vinyl size="sm" color="red" fallbackText="R" />
+							<Vinyl size="sm" color="blue" fallbackText="B" />
+							<Vinyl size="sm" color="orange" fallbackText="O" />
+							<Vinyl size="sm" color="purple" fallbackText="P" />
+							<Vinyl size="sm" color="gold" fallbackText="G" />
+						</div>
+					</Subsection>
+
+					<Subsection title="With Cover">
+						<div className="flex items-center gap-6">
+							<Vinyl size="md" coverUrl="https://picsum.photos/200" coverAlt="Album 1" />
+							<Vinyl size="md" color="red" coverUrl="https://picsum.photos/201" coverAlt="Album 2" />
+							<Vinyl size="md" color="gold" coverUrl="https://picsum.photos/202" coverAlt="Album 3" />
+						</div>
+					</Subsection>
+
+					<Subsection title="States">
+						<div className="flex items-center gap-8">
+							<div className="space-y-2 text-center">
+								<Vinyl size="md" coverUrl="https://picsum.photos/203" />
+								<p className="text-xs text-text-muted">Static</p>
+							</div>
+							<div className="space-y-2 text-center">
+								<Vinyl size="md" coverUrl="https://picsum.photos/204" isSpinning />
+								<p className="text-xs text-text-muted">Spinning</p>
+							</div>
+							<div className="space-y-2 text-center">
+								<Vinyl size="md" coverUrl="https://picsum.photos/205" showPlayButton onPlay={() => {}} />
+								<p className="text-xs text-text-muted">Hover for Play</p>
+							</div>
+						</div>
+					</Subsection>
 				</ComponentCard>
 			</main>
 		</div>

@@ -143,3 +143,16 @@
 	--color-text-muted: #8a8a8a;
 	--color-text-disabled: #525252;
 }
+
+@keyframes spin-slow {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.animate-spin-slow {
+	animation: spin-slow 8s linear infinite;
+}
