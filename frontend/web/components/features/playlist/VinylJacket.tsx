@@ -5,7 +5,7 @@ import { type HTMLAttributes } from 'react';
 import { Vinyl } from './Vinyl';
 
 type JacketSize = 'sm' | 'md' | 'lg' | 'xl';
-type JacketVariant = 'classic' | 'modern' | 'vintage' | 'interactive';
+type JacketVariant = 'classic' | 'modern' | 'vintage';
 
 interface VinylJacketProps extends HTMLAttributes<HTMLDivElement> {
 	variant?: JacketVariant;
@@ -265,90 +265,6 @@ export function VinylJacket({
 				{/* Info Section */}
 				{showInfo && (title || creator) && (
 					<div className="flex flex-col gap-0.5 px-1">
-						{title && <h3 className={`${styles.title} font-semibold text-text-primary truncate`}>{title}</h3>}
-						{(creator || trackCount !== undefined) && (
-							<p className={`${styles.meta} text-text-muted truncate`}>
-								{creator && `@${creator}`}
-								{creator && trackCount !== undefined && ' · '}
-								{trackCount !== undefined && `${trackCount} tracks`}
-							</p>
-						)}
-					</div>
-				)}
-			</div>
-		);
-	}
-
-	// Interactive variant: stacked albums + vinyl peek
-	if (variant === 'interactive') {
-		return (
-			<div className={`${styles.wrapper} flex flex-col gap-3 ${className}`} {...props}>
-				<div className="relative group">
-					{/* Back album 2 */}
-					<div
-						className="absolute inset-0 rounded-md bg-neutral-800 transition-transform duration-300 group-hover:-translate-y-1"
-						style={{
-							transform: 'translate(-6px, -6px)',
-							zIndex: 1,
-						}}
-					/>
-
-					{/* Back album 1 */}
-					<div
-						className="absolute inset-0 rounded-md bg-neutral-700 transition-transform duration-300 group-hover:-translate-y-0.5"
-						style={{
-							transform: 'translate(-3px, -3px)',
-							zIndex: 2,
-						}}
-					/>
-
-					{/* Front album */}
-					<div
-						onClick={onClick}
-						onKeyDown={(e) => onClick && (e.key === 'Enter' || e.key === ' ') && onClick()}
-						tabIndex={onClick ? 0 : undefined}
-						role={onClick ? 'button' : undefined}
-						className={`
-							${styles.cover}
-							relative
-							rounded-md
-							overflow-visible
-							bg-surface-elevated
-							shadow-lg
-							transition-all duration-300
-							z-10
-							${onClick ? 'cursor-pointer group-hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-bg' : 'group-hover:-translate-y-0.5'}
-						`}
-					>
-						<div className="relative w-full h-full rounded-md overflow-hidden">
-							{coverUrl ? (
-								<Image src={coverUrl} alt={coverAlt} fill className="object-cover" draggable="false" />
-							) : (
-								<div></div>
-							)}
-
-							{/* Subtle edge highlight */}
-							<div
-								className="absolute inset-0 pointer-events-none rounded-md"
-								style={{
-									boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.08)',
-								}}
-							/>
-						</div>
-
-						{/* Vinyl peek */}
-						<div
-							className="absolute top-1/2 -translate-y-1/2 right-0 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-[40%] group-focus-within:opacity-100 group-focus-within:translate-x-[40%]"
-							style={{ zIndex: -1 }}
-						>
-							<Vinyl size={styles.vinylSize} coverUrl={coverUrl} isSpinning={false} />
-						</div>
-					</div>
-				</div>
-
-				{/* Info Section */}
-				{showInfo && (title || creator) && (
-					<div className="flex flex-col gap-0.5 px-1 mt-2">
 						{title && <h3 className={`${styles.title} font-semibold text-text-primary truncate`}>{title}</h3>}
 						{(creator || trackCount !== undefined) && (
 							<p className={`${styles.meta} text-text-muted truncate`}>

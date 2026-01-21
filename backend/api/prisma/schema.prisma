@@ -14,6 +14,12 @@ enum PlaylistVisibility {
   FOLLOWERS
 }
 
+enum JacketVariant {
+  CLASSIC
+  MODERN
+  VINTAGE
+}
+
 /* MODELS */
 model User {
   id            String    @id @default(uuid()) @db.Uuid
@@ -43,6 +49,7 @@ model Playlist {
   visibility        PlaylistVisibility  @default(PUBLIC)
   isCollaborative   Boolean             @default(false) @map("is_collaborative")
   trackCount        Int                 @default(0) @map("track_count")
+  variant           JacketVariant       @default(MODERN)
   createdAt         DateTime            @default(now()) @map("created_at") @db.Timestamptz
   updatedAt         DateTime            @updatedAt @map("updated_at") @db.Timestamptz
 

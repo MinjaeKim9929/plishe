@@ -260,17 +260,6 @@ export default function PatternLibraryPage() {
 								/>
 								<p className="text-xs text-text-muted mt-2">Vintage</p>
 							</div>
-							<div className="text-center">
-								<VinylJacket
-									variant="interactive"
-									size="md"
-									coverUrl="https://picsum.photos/226"
-									title="Interactive"
-									creator="collector"
-									trackCount={24}
-								/>
-								<p className="text-xs text-text-muted mt-2">Interactive (hover)</p>
-							</div>
 						</div>
 					</Subsection>
 

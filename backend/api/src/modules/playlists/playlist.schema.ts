@@ -28,6 +28,7 @@ export const listPlaylistsSchema = z.object({
 	page: z.coerce.number().int().min(1).default(1),
 	limit: z.coerce.number().int().min(1).max(100).default(20),
 	visibility: z.enum(['PUBLIC', 'PRIVATE', 'FOLLOWERS']).optional(),
+	variant: z.enum(['CLASSIC', 'MODERN', 'VINTAGE']).default('MODERN'),
 });
 
 export type CreatePlaylistInput = z.infer<typeof createPlaylistSchema>;
