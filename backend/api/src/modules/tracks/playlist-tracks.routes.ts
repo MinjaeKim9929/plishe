@@ -9,6 +9,7 @@ import {
 	reorderTracksSchema,
 	listTracksSchema,
 } from './track.schema';
+import { requireAuth } from '../../middleware/auth';
 
 // mergeParams: true allows access to :playlistId from parent router
 const router = Router({ mergeParams: true });
@@ -20,7 +21,7 @@ const router = Router({ mergeParams: true });
 router.get(
 	'/', //
 	validate({ params: playlistIdSchema, query: listTracksSchema }),
-	asyncHandler(trackController.getPlaylistTracks)
+	asyncHandler(trackController.getPlaylistTracks),
 );
 
 /**
@@ -29,8 +30,9 @@ router.get(
  */
 router.post(
 	'/',
+	requireAuth,
 	validate({ params: playlistIdSchema, body: addTrackToPlaylistSchema }),
-	asyncHandler(trackController.addToPlaylist)
+	asyncHandler(trackController.addToPlaylist),
 );
 
 /**
@@ -39,8 +41,9 @@ router.post(
  */
 router.delete(
 	'/:trackId', //
+	requireAuth,
 	validate({ params: removeTrackFromPlaylistSchema }),
-	asyncHandler(trackController.removeFromPlaylist)
+	asyncHandler(trackController.removeFromPlaylist),
 );
 
 /**
@@ -49,8 +52,9 @@ router.delete(
  */
 router.patch(
 	'/reorder', //
+	requireAuth,
 	validate({ params: playlistIdSchema, body: reorderTracksSchema }),
-	asyncHandler(trackController.reorderInPlaylist)
+	asyncHandler(trackController.reorderInPlaylist),
 );
 
 export default router;

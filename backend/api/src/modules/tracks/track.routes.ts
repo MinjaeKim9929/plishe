@@ -9,6 +9,7 @@ import {
 	listTracksSchema,
 	searchTracksSchema,
 } from './track.schema';
+import { requireAuth } from '../../middleware/auth';
 
 const router = Router();
 
@@ -19,7 +20,7 @@ const router = Router();
 router.get(
 	'/', //
 	validate({ query: listTracksSchema }),
-	asyncHandler(trackController.list)
+	asyncHandler(trackController.list),
 );
 
 /**
@@ -30,7 +31,7 @@ router.get(
 router.get(
 	'/search', //
 	validate({ query: searchTracksSchema }),
-	asyncHandler(trackController.search)
+	asyncHandler(trackController.search),
 );
 
 /**
@@ -39,8 +40,9 @@ router.get(
  */
 router.get(
 	'/:id', //
+	requireAuth,
 	validate({ params: trackIdSchema }),
-	asyncHandler(trackController.getById)
+	asyncHandler(trackController.getById),
 );
 
 /**
@@ -50,7 +52,7 @@ router.get(
 router.post(
 	'/', //
 	validate({ body: createTrackSchema }),
-	asyncHandler(trackController.create)
+	asyncHandler(trackController.create),
 );
 
 /**
@@ -59,8 +61,9 @@ router.post(
  */
 router.patch(
 	'/:id', //
+	requireAuth,
 	validate({ params: trackIdSchema, body: updateTrackSchema }),
-	asyncHandler(trackController.update)
+	asyncHandler(trackController.update),
 );
 
 /**
@@ -69,8 +72,9 @@ router.patch(
  */
 router.delete(
 	'/:id', //
+	requireAuth,
 	validate({ params: trackIdSchema }),
-	asyncHandler(trackController.delete)
+	asyncHandler(trackController.delete),
 );
 
 export default router;

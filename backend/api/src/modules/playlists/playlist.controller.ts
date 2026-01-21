@@ -56,7 +56,7 @@ export const playlistController = {
 	async create(req: CreateRequest, res: Response) {
 		const data = req.body as CreatePlaylistInput;
 
-		const playlist = await playlistService.create(data);
+		const playlist = await playlistService.create(req.user!.id, data);
 
 		sendCreated(res, playlist);
 	},

@@ -2,9 +2,6 @@ import { prisma } from '../../lib/prisma';
 import { NotFoundError, ConflictError } from '../../lib/errors';
 import type { CreateTrackInput, UpdateTrackInput, AddTrackToPlaylistInput, ReorderTracksInput } from './track.schema';
 
-// Temporary mock user ID
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 export const trackService = {
 	/**
 	 * List all tracks with pagination.
@@ -119,7 +116,7 @@ export const trackService = {
 	 * Add a track to a playlist.
 	 * If position is not specified, appends to end.
 	 */
-	async addToPlaylist(playlistId: string, data: AddTrackToPlaylistInput) {
+	async addToPlaylist(playlistId: string, userId: string, data: AddTrackToPlaylistInput) {
 		// Verify playlist exists
 		const playlist = await prisma.playlist.findUnique({ where: { id: playlistId } });
 		if (!playlist) {
@@ -162,7 +159,7 @@ export const trackService = {
 				playlistId,
 				trackId: data.trackId,
 				position,
-				addedById: MOCK_USER_ID,
+				addedById: userId,
 			},
 			include: { track: true },
 		});

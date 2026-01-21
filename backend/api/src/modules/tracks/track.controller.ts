@@ -123,7 +123,7 @@ export const trackController = {
 		const { playlistId } = req.params;
 		const data = req.body as AddTrackToPlaylistInput;
 
-		const playlistTrack = await trackService.addToPlaylist(playlistId, data);
+		const playlistTrack = await trackService.addToPlaylist(playlistId, req.user!.id, data);
 
 		sendCreated(res, playlistTrack);
 	},

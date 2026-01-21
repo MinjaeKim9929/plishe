@@ -3,6 +3,7 @@ import { playlistController } from './playlist.controller';
 import { asyncHandler } from '../../middleware/async-handler';
 import { validate } from '../../middleware/validate';
 import { createPlaylistSchema, updatePlaylistSchema, playlistIdSchema, listPlaylistsSchema } from './playlist.schema';
+import { optionalAuth, requireAuth } from '../../middleware/auth';
 
 /**
  * Express Router for playlist endpoints.
@@ -18,8 +19,9 @@ const router = Router();
  */
 router.get(
 	'/', //
+	optionalAuth,
 	validate({ query: listPlaylistsSchema }),
-	asyncHandler(playlistController.list)
+	asyncHandler(playlistController.list),
 );
 
 /**
@@ -31,7 +33,7 @@ router.get(
 router.get(
 	'/:id', //
 	validate({ params: playlistIdSchema }),
-	asyncHandler(playlistController.getById)
+	asyncHandler(playlistController.getById),
 );
 
 /**
@@ -42,8 +44,9 @@ router.get(
  */
 router.post(
 	'/', //
+	requireAuth,
 	validate({ body: createPlaylistSchema }),
-	asyncHandler(playlistController.create)
+	asyncHandler(playlistController.create),
 );
 
 /**
@@ -55,8 +58,9 @@ router.post(
  */
 router.patch(
 	'/:id', //
+	requireAuth,
 	validate({ params: playlistIdSchema, body: updatePlaylistSchema }),
-	asyncHandler(playlistController.update)
+	asyncHandler(playlistController.update),
 );
 
 /**
@@ -67,8 +71,9 @@ router.patch(
  */
 router.delete(
 	'/:id', //
+	requireAuth,
 	validate({ params: playlistIdSchema }),
-	asyncHandler(playlistController.delete)
+	asyncHandler(playlistController.delete),
 );
 
 export default router;

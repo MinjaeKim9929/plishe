@@ -3,9 +3,6 @@ import { NotFoundError } from '../../lib/errors';
 import type { CreatePlaylistInput, UpdatePlaylistInput } from './playlist.schema';
 import { PlaylistVisibility } from '../../generated/prisma/enums';
 
-// Temporary mock user ID
-const MOCK_USER_ID = '00000000-0000-0000-0000-000000000001';
-
 /**
  * Playlist service - handles all playlist-related business logic.
  * Acts as a layer between controllers and database (Prisma).
@@ -67,11 +64,11 @@ export const playlistService = {
 	 * Create a new playlist.
 	 * Assigns the mock user ID as owner (until auth is implemented).
 	 */
-	async create(data: CreatePlaylistInput) {
+	async create(userId: string, data: CreatePlaylistInput) {
 		return prisma.playlist.create({
 			data: {
 				...data,
-				userId: MOCK_USER_ID,
+				userId,
 			},
 		});
 	},
