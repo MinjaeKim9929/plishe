@@ -7,8 +7,20 @@ interface ValidationSchemas {
 	params?: ZodType;
 }
 
+declare global {
+	namespace Express {
+		interface Request {
+			validated?: {
+				query?: unknown;
+				params?: unknown;
+			};
+		}
+	}
+}
+
 /**
  * Validates request data against zod schemas.
+ * Validated query/params are stored in req.validated for proper type coercion.
  *
  * Usage:
  *    router.post('/playlists',
@@ -19,16 +31,16 @@ interface ValidationSchemas {
 export const validate = (schemas: ValidationSchemas): RequestHandler => {
 	return async (req, _res, next) => {
 		try {
+			req.validated = {};
+
 			if (schemas.body) {
 				req.body = await schemas.body.parseAsync(req.body);
 			}
 			if (schemas.query) {
-				const validated = await schemas.query.parseAsync(req.query);
-				Object.assign(req.query, validated);
+				req.validated.query = await schemas.query.parseAsync(req.query);
 			}
 			if (schemas.params) {
-				const validated = await schemas.params.parseAsync(req.params);
-				Object.assign(req.params, validated);
+				req.validated.params = await schemas.params.parseAsync(req.params);
 			}
 			next();
 		} catch (err) {
