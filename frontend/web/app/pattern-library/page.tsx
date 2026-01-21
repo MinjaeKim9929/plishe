@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
-import { Vinyl } from '@/components/features/playlist';
+import { Vinyl, VinylJacket } from '@/components/features/playlist';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -189,22 +189,11 @@ export default function PatternLibraryPage() {
 				<ComponentCard title="Vinyl">
 					<Subsection title="Sizes">
 						<div className="flex items-end gap-6">
-							<Vinyl size="xs" fallbackText="XS" />
-							<Vinyl size="sm" fallbackText="SM" />
-							<Vinyl size="md" fallbackText="MD" />
-							<Vinyl size="lg" fallbackText="LG" />
-							<Vinyl size="xl" fallbackText="XL" />
-						</div>
-					</Subsection>
-
-					<Subsection title="Colors">
-						<div className="flex items-center gap-6 flex-wrap">
-							<Vinyl size="sm" color="black" fallbackText="B" />
-							<Vinyl size="sm" color="red" fallbackText="R" />
-							<Vinyl size="sm" color="blue" fallbackText="B" />
-							<Vinyl size="sm" color="orange" fallbackText="O" />
-							<Vinyl size="sm" color="purple" fallbackText="P" />
-							<Vinyl size="sm" color="gold" fallbackText="G" />
+							<Vinyl size="xs" />
+							<Vinyl size="sm" />
+							<Vinyl size="md" />
+							<Vinyl size="lg" />
+							<Vinyl size="xl" />
 						</div>
 					</Subsection>
 
@@ -230,6 +219,118 @@ export default function PatternLibraryPage() {
 								<Vinyl size="md" coverUrl="https://picsum.photos/205" showPlayButton onPlay={() => {}} />
 								<p className="text-xs text-text-muted">Hover for Play</p>
 							</div>
+						</div>
+					</Subsection>
+				</ComponentCard>
+
+				{/* Vinyl Jacket */}
+				<ComponentCard title="Vinyl Jacket">
+					<Subsection title="Variants">
+						<div className="flex items-end gap-8">
+							<div className="text-center">
+								<VinylJacket
+									variant="classic"
+									size="md"
+									coverUrl="https://picsum.photos/223"
+									title="Classic"
+									creator="vinyl_store"
+									trackCount={12}
+								/>
+								<p className="text-xs text-text-muted mt-2">Classic</p>
+							</div>
+							<div className="text-center">
+								<VinylJacket
+									variant="modern"
+									size="md"
+									coverUrl="https://picsum.photos/224"
+									title="Modern"
+									creator="minimalist"
+									trackCount={8}
+								/>
+								<p className="text-xs text-text-muted mt-2">Modern</p>
+							</div>
+							<div className="text-center">
+								<VinylJacket
+									variant="vintage"
+									size="md"
+									coverUrl="https://picsum.photos/225"
+									title="Vintage"
+									creator="retro_vibes"
+									trackCount={15}
+								/>
+								<p className="text-xs text-text-muted mt-2">Vintage</p>
+							</div>
+							<div className="text-center">
+								<VinylJacket
+									variant="interactive"
+									size="md"
+									coverUrl="https://picsum.photos/226"
+									title="Interactive"
+									creator="collector"
+									trackCount={24}
+								/>
+								<p className="text-xs text-text-muted mt-2">Interactive (hover)</p>
+							</div>
+						</div>
+					</Subsection>
+
+					<Subsection title="Sizes">
+						<div className="flex items-end gap-6">
+							<VinylJacket
+								variant="classic"
+								size="sm"
+								coverUrl="https://picsum.photos/200"
+								title="Small"
+								creator="user"
+								trackCount={10}
+							/>
+							<VinylJacket
+								variant="classic"
+								size="md"
+								coverUrl="https://picsum.photos/201"
+								title="Medium Size"
+								creator="username"
+								trackCount={24}
+							/>
+							<VinylJacket
+								variant="classic"
+								size="lg"
+								coverUrl="https://picsum.photos/202"
+								title="Large Jacket"
+								creator="creator"
+								trackCount={48}
+							/>
+							<VinylJacket
+								variant="classic"
+								size="xl"
+								coverUrl="https://picsum.photos/203"
+								title="Extra Large"
+								creator="artist"
+								trackCount={100}
+							/>
+						</div>
+					</Subsection>
+
+					<Subsection title="States">
+						<div className="flex items-end gap-6">
+							<VinylJacket
+								variant="modern"
+								size="md"
+								coverUrl="https://picsum.photos/204"
+								title="With Cover"
+								creator="user"
+								trackCount={12}
+							/>
+							<VinylJacket variant="modern" size="md" title="No Cover" creator="user" trackCount={8} />
+							<VinylJacket variant="modern" size="md" coverUrl="https://picsum.photos/205" showInfo={false} />
+							<VinylJacket
+								variant="modern"
+								size="md"
+								coverUrl="https://picsum.photos/206"
+								title="Clickable"
+								creator="user"
+								onClick={() => {}}
+							/>
 						</div>
 					</Subsection>
 				</ComponentCard>
